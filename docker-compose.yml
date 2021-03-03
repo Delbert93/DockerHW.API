@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  dockerhw.api:
+    image: ${DOCKER_REGISTRY-}dockerhwapi
+    build:
+      context: .
+      dockerfile: DockerHW.API/Dockerfile
+
+  dockerhw.web:
+    image: ${DOCKER_REGISTRY-}dockerhwweb
+    build:
+      context: .
+      dockerfile: DockerHW.Web/Dockerfile
+    environment: 
+    - API_ADDRESS=http://dockerhw.api
+    ports:
+      - 5000:80
+

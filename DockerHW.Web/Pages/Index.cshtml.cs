@@ -16,7 +16,7 @@ namespace DockerHW.Web.Pages
         private readonly IWeatherService weatherService;
         public IEnumerable<WeatherForecast> WeatherData;
 
-        public IndexModel(ILogger<IndexModel> logger, IConfiguration config, IWeatherService weatherService)
+        public IndexModel(ILogger<IndexModel> logger, IWeatherService weatherService)
         {
             _logger = logger;
             this.weatherService = weatherService;
