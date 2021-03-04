@@ -6,6 +6,8 @@ using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace DockerHW.Web.Pages
@@ -16,6 +18,13 @@ namespace DockerHW.Web.Pages
         private readonly IWeatherService weatherService;
         public IEnumerable<WeatherForecast> WeatherData;
 
+        private readonly HttpClient client;
+
+        public IndexModel(HttpClient client)
+        {
+            this.client = client;
+        }
+
         public IndexModel(ILogger<IndexModel> logger, IWeatherService weatherService)
         {
             _logger = logger;
@@ -25,6 +34,10 @@ namespace DockerHW.Web.Pages
         public async Task OnGet()
         {
             WeatherData = await weatherService.GetWeatherAsync();
+            foreach(var weather in WeatherData)
+            {
+                await client.PostAsJsonAsync("/weatherforecast/AddWeatherForecast", weather);
+            }
         }
     }
     public interface IWeatherService

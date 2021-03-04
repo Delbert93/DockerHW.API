@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DockerHW.API.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace DockerHW.API.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        public EfCoreRepository efCore { get; set; }
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -34,6 +37,12 @@ namespace DockerHW.API.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost("[action]")]
+        public async Task AddWeatherForecast(WeatherForecast weather)
+        {
+            await efCore.AddWeatherForecast(weather);
         }
     }
 }
